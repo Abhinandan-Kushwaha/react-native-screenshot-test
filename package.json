@@ -1,17 +1,36 @@
 {
-  "name": "ReactNativeScreenshotTest",
+  "name": "react-native-screenshot-test",
   "version": "0.0.1",
-  "private": true,
+  "description": "Screenshot testing tool from react-native apps.",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc -p . && ./build.sh",
+    "postinstall": "node ./dist/post-instal-script.mjs"
+  },
+  "repository": "https://github.com/Abhinandan-Kushwaha/react-native-screenshot-test",
+  "author": "Abhinandan Kushwaha <kushabhi5@gmail.com> (https://github.com/Abhinandan-Kushwaha)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Abhinandan-Kushwaha/react-native-screenshot-test/issues"
+  },
+  "homepage": "https://github.com/Abhinandan-Kushwaha/react-native-screenshot-test",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "react": "18.3.1",
-    "react-native": "0.75.3"
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7",
+    "react-native-fs": "^2.20.0",
+    "react-native-view-shot": "^3.8.0",
+    "screenshot-test-server": "^0.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -30,8 +49,22 @@
     "react-test-renderer": "18.3.1",
     "typescript": "5.0.4"
   },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@3.6.4"
+  "keywords": [
+    "react-native-screenshot-test",
+    "react-native-screenshot-testing",
+    "screenshot-testing",
+    "screenshot-test",
+    "react-native-snapshot-test",
+    "react-native-snapshot-testing",
+    "snapshot-testing",
+    "snapshot-test",
+    "react-native-test"
+  ]
 }
