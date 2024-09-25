@@ -1,6 +1,6 @@
 {
   "name": "react-native-screenshot-test",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Screenshot testing tool for react-native apps",
   "main": "dist/index.js",
   "files": [
@@ -13,8 +13,7 @@
     "start": "react-native start",
     "test": "jest",
     "build": "tsc -p . && ./build.sh",
-    "postinstall": "node ./dist/post-instal-script.mjs",
-    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js"
+    "postinstall": "node ./dist/post-instal-script.mjs"
   },
   "repository": "https://github.com/Abhinandan-Kushwaha/react-native-screenshot-test",
   "author": "Abhinandan Kushwaha <kushabhi5@gmail.com> (https://github.com/Abhinandan-Kushwaha)",

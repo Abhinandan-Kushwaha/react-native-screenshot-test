@@ -10,7 +10,7 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 // Modify package.json (for example, adding a script)
 packageJson.scripts = {
   ...packageJson.scripts,
-  'ss-test': 'cd ./node_modules/screenshot-test-server/dist && node server.js',
+  'ss-test': 'cd ../../screenshot-test-server/dist && node server.js',
 };
 
 // Write the modified package.json back to the file system
