@@ -13,7 +13,8 @@
     "start": "react-native start",
     "test": "jest",
     "build": "tsc -p . && ./build.sh",
-    "postinstall": "node ./dist/post-instal-script.mjs"
+    "postinstall": "node ./dist/post-instal-script.mjs",
+    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js"
   },
   "repository": "https://github.com/Abhinandan-Kushwaha/react-native-screenshot-test",
   "author": "Abhinandan Kushwaha <kushabhi5@gmail.com> (https://github.com/Abhinandan-Kushwaha)",
@@ -26,8 +27,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "fs": "^0.0.1-security",
-    "path": "^0.12.7",
     "react-native-fs": "^2.20.0",
     "react-native-view-shot": "^3.8.0",
     "screenshot-test-server": "^0.0.1"
