@@ -115,8 +115,8 @@ export const withScreenShot = (
         .catch((err: any) => {
           if (err?.message === 'Network request failed') {
             Alert.alert(
-              'Please start the test server using the command- "npm run ss-test"',
-              'Then Press the "Capture and Compare" button again.',
+              'Please start the test server',
+              '1. Navigate to "./node_modules/screenshot-test-server/dist"\n2. Run the command- "node server.js"\n3. Press the "Capture and Compare" button again.',
             );
           } else {
             Alert.alert('Something went wrong!');
