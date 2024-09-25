@@ -1,7 +1,7 @@
 {
   "name": "react-native-screenshot-test",
   "version": "0.0.1",
-  "description": "Screenshot testing tool from react-native apps.",
+  "description": "Screenshot testing tool for react-native apps",
   "main": "dist/index.js",
   "files": [
     "dist"
