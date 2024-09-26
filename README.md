@@ -17,11 +17,11 @@ Rebuild and relaunch your app after installation.
 
 1. In your project's `package.json`, under <i>scripts</i>, add-
 
-```json
+```js
 "scripts": {
     ...
     ...
-    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js" // add this line
+    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js" // add this
 }
 ```
 
