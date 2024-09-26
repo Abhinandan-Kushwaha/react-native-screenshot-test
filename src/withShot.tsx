@@ -1,27 +1,28 @@
-import React, {ReactElement, useRef} from 'react';
+import {ReactElement, useRef, useState} from 'react';
 import {
   ScrollView,
   Text,
   TouchableOpacity,
   Platform,
-  Alert,
   View,
   Dimensions,
 } from 'react-native';
 import ViewShot from 'react-native-view-shot';
 import {Metadata, addScreenShotToPath, generateHtmlFile} from './utils';
 import RNFS from 'react-native-fs';
+import {Loader, ModalBody} from './modalBody';
 
-const screenHeight = Dimensions.get('window').height;
+const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 const isAndroid = Platform.OS === 'android';
 
 export const defaultConfig = {
-  path: '../../../screenshot-test',
+  path: '../../../ss-test',
   localhostUrl: isAndroid ? 'http://10.0.2.2' : 'http://127.0.0.1',
   port: '8080',
   maxWidth: 500,
   backgroundColor: 'transparent',
   showDiffInGrayScale: false,
+  quality: 0.9,
 };
 
 export interface ScreenshotConfig {
@@ -31,6 +32,7 @@ export interface ScreenshotConfig {
   maxWidth?: number;
   backgroundColor?: string;
   showDiffInGrayScale?: boolean;
+  quality?: number;
 }
 
 export interface Components {
@@ -41,6 +43,7 @@ export interface Components {
   showDiffInGrayScale?: boolean;
   maxWidth?: number;
   backgroundColor?: string;
+  quality?: number;
 }
 
 export const withScreenShot = (
@@ -54,11 +57,25 @@ export const withScreenShot = (
     maxWidth = defaultConfig.maxWidth,
     backgroundColor = defaultConfig.backgroundColor,
     showDiffInGrayScale,
+    quality = defaultConfig.quality,
   } = screenshotConfig ?? {};
   const viewShotRefs: any[] = components.map(_ => useRef(null));
+  const [loading, setLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalBody, setModalBody] = useState<Function>(() => null);
+
+  const onModalDismiss = () => {
+    if (loading) return;
+    setModalVisible(false);
+    setModalTitle('');
+    setModalBody(() => null);
+  };
 
   const captureView = () => {
     if (viewShotRefs[0].current) {
+      setModalVisible(true);
+      setLoading(true);
       const ps = viewShotRefs.map(async (viewShotRef, index) => {
         if (viewShotRef.current) {
           const uri = await viewShotRef.current.capture();
@@ -101,25 +118,75 @@ export const withScreenShot = (
             maxWidth,
             backgroundColor,
           );
+          setLoading(false);
           if (res.status === 'success') {
             const splitPath = path.split('/');
             const folder = splitPath[splitPath.length - 1];
-            Alert.alert(
-              'Screenshot tests generated successfully!',
-              `Open the file ${folder}/test.html in your browser to see the reports.`,
-            );
+
+            setModalTitle('Screenshot tests generated successfully!');
+            setModalBody(() => (
+              <Text>
+                Open the file
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    color: '#23569E',
+                  }}>{` ${folder}/test.html `}</Text>
+                in your browser to see the reports.
+              </Text>
+            ));
           } else {
-            Alert.alert('Something went wrong!');
+            setModalTitle('Something went wrong!');
           }
         })
         .catch((err: any) => {
+          setLoading(false);
           if (err?.message === 'Network request failed') {
-            Alert.alert(
-              'Please start the test server',
-              '1. Navigate to "./node_modules/screenshot-test-server/dist"\n2. Run the command- "node server.js"\n3. Press the "Capture and Compare" button again.',
-            );
+            setModalTitle('Server NOT running!! Please start the test server');
+            setModalBody(() => (
+              <>
+                <Text>
+                  1. In the
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                    }}>{` package.json `}</Text>
+                  under
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                    }}>{` "scripts" `}</Text>
+                  add-
+                </Text>
+                <Text
+                  style={{
+                    color: '#23569E',
+                    marginVertical: 4,
+                  }}>
+                  {`"ss-test"`}
+                  <Text style={{color: 'brown'}}>
+                    {` :   "cd ./node_modules/screenshot-test-server/dist && node server.js"`}
+                  </Text>
+                </Text>
+                <Text style={{marginTop: 6}}>
+                  2. Run the command-
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                    }}>
+                    {` "npm run ss-test" `}
+                  </Text>
+                </Text>
+                <Text style={{marginTop: 6}}>
+                  3. Press the "Capture and Compare" button again.
+                </Text>
+              </>
+            ));
           } else {
-            Alert.alert('Something went wrong!');
+            setModalTitle('Something went wrong!');
           }
         });
     }
@@ -141,7 +208,7 @@ export const withScreenShot = (
             <ViewShot
               key={comp.id}
               ref={viewShotRefs[index]}
-              options={{format: 'png', quality: 0.9}}>
+              options={{format: 'png', quality: comp.quality ?? quality}}>
               {comp.component()}
             </ViewShot>
           ))}
@@ -163,6 +230,30 @@ export const withScreenShot = (
         }}>
         <Text style={{color: 'white', fontSize: 16}}>Capture and Compare</Text>
       </TouchableOpacity>
+      {modalVisible ? (
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={onModalDismiss}
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            width: screenWidth,
+            height: screenHeight,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+          }}>
+          {loading ? (
+            <Loader />
+          ) : (
+            <ModalBody
+              title={modalTitle}
+              body={modalBody}
+              onDismiss={onModalDismiss}
+            />
+          )}
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };

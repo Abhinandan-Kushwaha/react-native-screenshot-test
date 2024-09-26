@@ -1,6 +1,6 @@
 {
   "name": "react-native-screenshot-test",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Screenshot testing tool for react-native apps",
   "main": "dist/index.js",
   "files": [
@@ -25,9 +25,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "react-native-fs": "^2.20.0",
-    "react-native-view-shot": "^3.8.0",
-    "screenshot-test-server": "^0.0.1"
+    "screenshot-test-server": "^0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -48,7 +46,9 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-fs": "*",
+    "react-native-view-shot": "*"
   },
   "engines": {
     "node": ">=18"
