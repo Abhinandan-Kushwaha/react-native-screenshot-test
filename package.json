@@ -25,7 +25,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "screenshot-test-server": "^0.0.2"
+    "screenshot-test-server": "^0.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

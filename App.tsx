@@ -10,10 +10,10 @@ import {
   Text,
   View,
 } from 'react-native';
-import { withScreenShot } from './src/withShot';
+import { withScreenShotTest } from './src/withShot';
 
 const App = () => {
-  return withScreenShot(
+  return withScreenShotTest(
     [
       {
         component: () => <Text>Hey there</Text>,

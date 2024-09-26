@@ -15,8 +15,10 @@ import {Loader, ModalBody} from './modalBody';
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 const isAndroid = Platform.OS === 'android';
 
+const relativePathToScreenshotTestServer = '../../../'; // since the server code will be in server.js present inside node_modules/screenshot-test-server/dist folder
+
 export const defaultConfig = {
-  path: '../../../ss-test',
+  path: 'ss-test',
   localhostUrl: isAndroid ? 'http://10.0.2.2' : 'http://127.0.0.1',
   port: '8080',
   maxWidth: 500,
@@ -46,12 +48,11 @@ export interface Components {
   quality?: number;
 }
 
-export const withScreenShot = (
+export const withScreenShotTest = (
   components: Components[],
   screenshotConfig?: ScreenshotConfig,
 ) => {
   const {
-    path = defaultConfig.path,
     localhostUrl = defaultConfig.localhostUrl,
     port = defaultConfig.port,
     maxWidth = defaultConfig.maxWidth,
@@ -59,6 +60,15 @@ export const withScreenShot = (
     showDiffInGrayScale,
     quality = defaultConfig.quality,
   } = screenshotConfig ?? {};
+
+  let path = screenshotConfig?.path ?? defaultConfig.path;
+
+  if (path.startsWith('/') || path.startsWith('./')) {
+    path = path.split('/')[1];
+  }
+
+  path = relativePathToScreenshotTestServer + path;
+
   const viewShotRefs: any[] = components.map(_ => useRef(null));
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
