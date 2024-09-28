@@ -21,6 +21,7 @@ export const defaultConfig = {
   path: 'ss-test',
   localhostUrl: isAndroid ? 'http://10.0.2.2' : 'http://127.0.0.1',
   port: '8080',
+  batchSize: 10,
   maxWidth: 500,
   backgroundColor: 'transparent',
   showDiffInGrayScale: false,
@@ -31,6 +32,7 @@ export interface ScreenshotConfig {
   path?: string;
   localhostUrl?: string;
   port?: string;
+  batchSize?: number;
   maxWidth?: number;
   backgroundColor?: string;
   showDiffInGrayScale?: boolean;
@@ -55,6 +57,7 @@ export const withScreenShotTest = (
   const {
     localhostUrl = defaultConfig.localhostUrl,
     port = defaultConfig.port,
+    batchSize = defaultConfig.batchSize,
     maxWidth = defaultConfig.maxWidth,
     backgroundColor = defaultConfig.backgroundColor,
     showDiffInGrayScale,
@@ -68,6 +71,10 @@ export const withScreenShotTest = (
   }
 
   path = relativePathToScreenshotTestServer + path;
+  const offset = useRef(0);
+
+  const [componentsCurrentlyRendered, setComponentsCurrentlyRendered] =
+    useState<Components[]>(components.slice(offset.current, batchSize));
 
   const viewShotRefs: any[] = components.map(_ => useRef(null));
   const [loading, setLoading] = useState(false);
@@ -82,22 +89,26 @@ export const withScreenShotTest = (
     setModalBody(() => null);
   };
 
-  const captureView = () => {
-    if (viewShotRefs[0].current) {
+  const captureView = (
+    viewShotRefs: any,
+    componentsCurrentlyRendered: Components[],
+  ) => {
+    if (viewShotRefs[offset.current].current) {
       setModalVisible(true);
       setLoading(true);
-      const ps = viewShotRefs.map(async (viewShotRef, index) => {
-        if (viewShotRef.current) {
-          const uri = await viewShotRef.current.capture();
+      const ps = componentsCurrentlyRendered.map(async (component, index) => {
+        const currentViewshotRef = viewShotRefs[offset.current + index].current;
+        if (currentViewshotRef) {
+          const uri = await currentViewshotRef.capture();
           const data = await RNFS.readFile(uri, 'base64');
 
           await addScreenShotToPath(
             data,
-            components[index].id,
+            component.id,
             path,
             localhostUrl,
             port,
-            components[index].showDiffInGrayScale ??
+            component.showDiffInGrayScale ??
               showDiffInGrayScale ??
               defaultConfig.showDiffInGrayScale,
           );
@@ -130,23 +141,34 @@ export const withScreenShotTest = (
           );
           setLoading(false);
           if (res.status === 'success') {
-            const splitPath = path.split('/');
-            const folder = splitPath[splitPath.length - 1];
+            const newOffset = offset.current + batchSize;
+            if (newOffset < components.length) {
+              offset.current = newOffset;
+              const newComponents = components.slice(
+                newOffset,
+                newOffset + batchSize,
+              );
+              setComponentsCurrentlyRendered(newComponents);
+              captureView(viewShotRefs, newComponents);
+            } else {
+              const splitPath = path.split('/');
+              const folder = splitPath[splitPath.length - 1];
 
-            setModalTitle('Screenshot tests generated successfully!');
-            setModalBody(() => (
-              <Text>
-                Open the file
-                <Text
-                  style={{
-                    fontWeight: 'bold',
-                    color: '#23569E',
-                  }}>{` ${folder}/test.html `}</Text>
-                in your browser to see the reports.
-              </Text>
-            ));
+              setModalTitle('Screenshot tests generated successfully!');
+              setModalBody(() => (
+                <Text>
+                  Open the file
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      color: '#23569E',
+                    }}>{` ${folder}/test.html `}</Text>
+                  in your browser to see the reports.
+                </Text>
+              ));
+            }
           } else {
-            setModalTitle('Something went wrong!');
+            setModalTitle('Something went wrong while generating HTML!');
           }
         })
         .catch((err: any) => {
@@ -213,19 +235,24 @@ export const withScreenShotTest = (
           maxHeight: screenHeight - 85,
           backgroundColor: screenshotConfig?.backgroundColor ?? 'white',
         }}>
+        <Text>{`Rendering items from ${offset.current} to ${
+          offset.current + batchSize
+        }`}</Text>
         <ScrollView>
-          {components.map((comp: any, index: number) => (
-            <ViewShot
-              key={comp.id}
-              ref={viewShotRefs[index]}
-              options={{format: 'png', quality: comp.quality ?? quality}}>
-              {comp.component()}
-            </ViewShot>
-          ))}
+          {[...componentsCurrentlyRendered].map((comp: any, index: number) => {
+            return (
+              <ViewShot
+                key={comp.id}
+                ref={viewShotRefs[offset.current + index]}
+                options={{format: 'png', quality: comp.quality ?? quality}}>
+                {comp.component()}
+              </ViewShot>
+            );
+          })}
         </ScrollView>
       </View>
       <TouchableOpacity
-        onPress={captureView}
+        onPress={() => captureView(viewShotRefs, componentsCurrentlyRendered)}
         style={{
           borderRadius: 4,
           backgroundColor: '#111',
@@ -254,7 +281,7 @@ export const withScreenShotTest = (
             position: 'absolute',
           }}>
           {loading ? (
-            <Loader />
+            <Loader offset={offset.current} batchSize={batchSize} />
           ) : (
             <ModalBody
               title={modalTitle}
