@@ -79,6 +79,7 @@ interface ScreenshotConfig {
   path?: string; // path where screenshots should be saved, default: ss-test
   localhostUrl?: string; // for web & iOS emulator it is http://127.0.0.1, for Android emulator it is http://10.0.2.2
   port?: string; // port where test server should run, default: 8080
+  batchSize?: number; // number of tests to be processed at a time, default: 10
   maxWidth?: number; // maxWidth to be used in html while rendering the captured screenshot, default: 500
   backgroundColor?: string; // backgroundColor to be used in html while rendering the captured screenshot, default: transparent
   showDiffInGrayScale?: boolean; // show diff image in grayScale? default: false

@@ -30,12 +30,23 @@ export const ModalBody = (props: ModalBodyProps) => {
   );
 };
 
-export const Loader = () => (
+export const Loader = ({
+  offset,
+  batchSize,
+}: {
+  offset: number;
+  batchSize: number;
+}) => (
   <>
     <View style={styles.container}>
       <ActivityIndicator size={'large'} />
 
-      <Text style={{color: 'gray', margin: 10}}>Generating the tests...</Text>
+      <Text style={{color: 'gray', margin: 10}}>
+        Generating the tests for components
+        <Text style={{fontWeight: 'bold', color: 'black'}}>
+          {`:  ${offset} to ${offset + batchSize}`}
+        </Text>
+      </Text>
     </View>
   </>
 );
