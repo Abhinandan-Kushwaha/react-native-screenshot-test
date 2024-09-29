@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   container: {
     margin: 15,
     backgroundColor: 'white',
+    opacity: 0.9,
     borderWidth: 1,
     borderRadius: 4,
     borderColor: 'gray',
