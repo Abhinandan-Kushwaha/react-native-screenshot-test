@@ -13,8 +13,6 @@ npm i react-native-screenshot-test
 ```
 
 ---
----
----
 
 ## 2. Simulator/Device mode
 
@@ -32,8 +30,6 @@ npm i react-native-screenshot-test react-native-view-shot react-native-fs
 
 Rebuild and relaunch your app after installation.
 
----
----
 ---
 
 ### Usage
