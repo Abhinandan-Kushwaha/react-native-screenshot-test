@@ -2,10 +2,11 @@
 #
 .DS_Store
 
-dist
-
 package-lock.json
 yarn.lock
+
+dist
+
 
 # Xcode
 #

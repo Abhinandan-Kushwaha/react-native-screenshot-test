@@ -1,6 +1,6 @@
 export {
-  withScreenShotTest,
+  withScreenShot as withScreenShotTest,
   defaultConfig,
   type ScreenshotConfig,
   type Components,
-} from './withShot';
+} from './withScreenShot';

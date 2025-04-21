@@ -1,4 +1,23 @@
 The most straightforward UI testing library for react-native.
+
+
+# 1. HeadLess mode
+Can be used in Expo or react-native projects that can render on web using react-native-web. Your project will run in headless (no UI) mode and the server will capture screenshots.
+
+Just wrap your UI component/widget inside `withScreenshotTest`. Then run the screenshot-test server. The tests will run and a report will be generated in `test.html` file.
+
+## Installation
+
+```
+npm i react-native-screenshot-test
+```
+
+---
+---
+---
+
+# 2. Simulator/Device mode
+
 Just wrap your UI component/widget inside `withScreenshotTest` and render it on your emulator/device.
 
 The emulator will render your component/widget along with a button named <b>Capture and Compare</b>
@@ -13,6 +32,10 @@ npm i react-native-screenshot-test react-native-view-shot react-native-fs
 
 Rebuild and relaunch your app after installation.
 
+---
+---
+---
+
 ## Usage
 
 1. In your project's `package.json`, under <i>scripts</i>, add-
@@ -21,8 +44,20 @@ Rebuild and relaunch your app after installation.
 "scripts": {
     ...
     ...
-    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js" // add this
+    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js true", // add this for headless mode
+
+    // OR
+    // to run the tests on simulator/device (in non-headless mode), add below line
+
+    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js false" // add this for simulator/ device mode
 }
+```
+
+**Note** The node server accepts 3 args-
+```js
+1. isHeadLess // default true
+2. uiUrl // default http://localhost:8081
+3. serverPort // default 8080
 ```
 
 2. Write your tests. Below is a sample test-
@@ -52,7 +87,9 @@ const App = () => {
         /* properties path, localhostUrl, port, quality etc (all optional) */
     };
 
-    return withScreenShotTest(testComponents, screenshotConfig);
+    const isHeadless = true / false
+
+    return withScreenShotTest(testComponents, isHeadless, screenshotConfig);
 }
 
 ```
@@ -70,15 +107,14 @@ This will start the test server.
 
 ## Props
 
-`withScreenShotTest` receives 2 parameters- Components array and ScreenshotConfig.
+`withScreenShotTest` receives 3 parameters- Components array, isHeadless and ScreenshotConfig.
 
 #### ScreenshotConfig is defined as-
 
 ```ts
 interface ScreenshotConfig {
   path?: string; // path where screenshots should be saved, default: ss-test
-  localhostUrl?: string; // for web & iOS emulator it is http://127.0.0.1, for Android emulator it is http://10.0.2.2
-  port?: string; // port where test server should run, default: 8080
+  serverUrl?: string; // for web & iOS emulator it is http://127.0.0.1:8080, for Android emulator it is http://10.0.2.2:8080
   batchSize?: number; // number of tests to be processed at a time, default: 10
   maxWidth?: number; // maxWidth to be used in html while rendering the captured screenshot, default: 500
   backgroundColor?: string; // backgroundColor to be used in html while rendering the captured screenshot, default: transparent
