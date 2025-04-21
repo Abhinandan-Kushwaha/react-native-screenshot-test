@@ -1,4 +1,4 @@
-import {ReactElement, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {
   ScrollView,
   Text,
@@ -11,52 +11,19 @@ import ViewShot from 'react-native-view-shot';
 import {Metadata, addScreenShotToPath, generateHtmlFile} from './utils';
 import RNFS from 'react-native-fs';
 import {Loader, ModalBody} from './modalBody';
+import {Components, ScreenshotConfig, defaultConfig} from './withScreenShot';
 
 const {height: screenHeight, width: screenWidth} = Dimensions.get('window');
 const isAndroid = Platform.OS === 'android';
 
 const relativePathToScreenshotTestServer = '../../../'; // since the server code will be in server.js present inside node_modules/screenshot-test-server/dist folder
 
-export const defaultConfig = {
-  path: 'ss-test',
-  localhostUrl: isAndroid ? 'http://10.0.2.2' : 'http://127.0.0.1',
-  port: '8080',
-  batchSize: 10,
-  maxWidth: 500,
-  backgroundColor: 'transparent',
-  showDiffInGrayScale: false,
-  quality: 0.9,
-};
-
-export interface ScreenshotConfig {
-  path?: string;
-  localhostUrl?: string;
-  port?: string;
-  batchSize?: number;
-  maxWidth?: number;
-  backgroundColor?: string;
-  showDiffInGrayScale?: boolean;
-  quality?: number;
-}
-
-export interface Components {
-  component: (props?: any) => ReactElement;
-  title: string;
-  id: string;
-  description?: string;
-  showDiffInGrayScale?: boolean;
-  maxWidth?: number;
-  backgroundColor?: string;
-  quality?: number;
-}
-
-export const withScreenShotTest = (
+const withScreenShotTest = (
   components: Components[],
   screenshotConfig?: ScreenshotConfig,
 ) => {
   const {
-    localhostUrl = defaultConfig.localhostUrl,
-    port = defaultConfig.port,
+    serverUrl = defaultConfig.serverUrl,
     batchSize = defaultConfig.batchSize,
     maxWidth = defaultConfig.maxWidth,
     backgroundColor = defaultConfig.backgroundColor,
@@ -106,8 +73,7 @@ export const withScreenShotTest = (
             data,
             component.id,
             path,
-            localhostUrl,
-            port,
+            serverUrl,
             component.showDiffInGrayScale ??
               showDiffInGrayScale ??
               defaultConfig.showDiffInGrayScale,
@@ -116,7 +82,6 @@ export const withScreenShotTest = (
       });
 
       const metaData: Metadata = {
-        port,
         components: components.map(comp => {
           const {
             id,
@@ -134,8 +99,7 @@ export const withScreenShotTest = (
           const res = await generateHtmlFile(
             path,
             metaData,
-            localhostUrl,
-            port,
+            serverUrl,
             maxWidth,
             backgroundColor,
           );
@@ -294,3 +258,5 @@ export const withScreenShotTest = (
     </View>
   );
 };
+
+export default withScreenShotTest;

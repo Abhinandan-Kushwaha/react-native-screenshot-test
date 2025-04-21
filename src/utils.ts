@@ -7,7 +7,6 @@ interface Component {
 }
 
 export interface Metadata {
-  port: string;
   components: Component[];
 }
 
@@ -15,8 +14,7 @@ export const addScreenShotToPath = async (
   imageString: string,
   id: string,
   path: string,
-  localhostUrl: string,
-  port: string,
+  serverUrl: string,
   showDiffInGrayScale: boolean,
 ) => {
   const option = {
@@ -27,7 +25,7 @@ export const addScreenShotToPath = async (
     body: JSON.stringify({data: imageString, id, path, showDiffInGrayScale}),
   };
 
-  const url = `${localhostUrl}:${port}/data`;
+  const url = `${serverUrl}/data`;
   const res = {status: ''};
 
   try {
@@ -43,8 +41,7 @@ export const addScreenShotToPath = async (
 export const generateHtmlFile = async (
   path: string,
   metaData: Metadata,
-  localhostUrl: string,
-  port: string,
+  serverUrl: string,
   maxWidth: number,
   backgroundColor: string,
 ) => {
@@ -56,7 +53,7 @@ export const generateHtmlFile = async (
     body: JSON.stringify({path, maxWidth: maxWidth, backgroundColor, metaData}),
   };
 
-  const url = `${localhostUrl}:${port}/generate`;
+  const url = `${serverUrl}/generate`;
   const res = {status: ''};
 
   try {
