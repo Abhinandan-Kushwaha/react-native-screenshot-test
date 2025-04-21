@@ -1,12 +1,12 @@
 The most straightforward UI testing library for react-native.
 
 
-# 1. HeadLess mode
+## 1. HeadLess mode
 Can be used in Expo or react-native projects that can render on web using react-native-web. Your project will run in headless (no UI) mode and the server will capture screenshots.
 
 Just wrap your UI component/widget inside `withScreenshotTest`. Then run the screenshot-test server. The tests will run and a report will be generated in `test.html` file.
 
-## Installation
+### Installation
 
 ```
 npm i react-native-screenshot-test
@@ -16,7 +16,7 @@ npm i react-native-screenshot-test
 ---
 ---
 
-# 2. Simulator/Device mode
+## 2. Simulator/Device mode
 
 Just wrap your UI component/widget inside `withScreenshotTest` and render it on your emulator/device.
 
@@ -24,7 +24,7 @@ The emulator will render your component/widget along with a button named <b>Capt
 
 Hit the button and the tests will run and a report will be generated in `test.html` file.
 
-## Installation
+### Installation
 
 ```
 npm i react-native-screenshot-test react-native-view-shot react-native-fs
@@ -36,7 +36,7 @@ Rebuild and relaunch your app after installation.
 ---
 ---
 
-## Usage
+### Usage
 
 1. In your project's `package.json`, under <i>scripts</i>, add-
 
@@ -94,18 +94,21 @@ const App = () => {
 
 ```
 
-3. In your projects root directory, run-
+3. In your projects root directory, run the below command(s)-
 
-```
+```js
+npx expo start -c // run this only in headless mode
 npm run ss-test
 ```
-This will start the test server.
+This will start the test server. In headless mode, make sure to run `npx expo start -c` (for expo projects) or `npm start` (for rn projects runnable on web) before running `npm run ss-test`.
 
-4. Render your test component in your simulator or device and press the <i>"Capture and Compare"</i> button. This will generate a folder named `ss-test` (or the path you provided in config) in your project's root directory.
+4. Render your test component in your simulator or device and press the <i>"Capture and Compare"</i> button. This step is needed only if you have NOT chosen the headless mode.
 
-5. Navigate to <i>ss-test</i> or <i> (or the path you provided in config)</i> folder  and open the file named `test.html` in your browser.
+5. This will generate a folder named `ss-test` (or the path you provided in config) in your project's root directory.
 
-## Props
+6. Navigate to <i>ss-test</i> or <i> (or the path you provided in config)</i> folder  and open the file named `test.html` in your browser.
+
+### Props
 
 `withScreenShotTest` receives 3 parameters- Components array, isHeadless and ScreenshotConfig.
 
@@ -135,7 +138,7 @@ interface Components {
   showDiffInGrayScale?: boolean;
   maxWidth?: number;
   backgroundColor?: string;
-  quality?: number;
+  quality?: number; // NOT used in headless mode
 }
 ```
 <b>Note:</b> only the first 3 properties- `component`, `title` and `id` are required, rest are optional. 
