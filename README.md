@@ -1,8 +1,8 @@
-The most straightforward UI testing library for react-native.
+The most straightforward screenshot testing library for react-native.
 
 
 ## 1. HeadLess mode
-Can be used in Expo or react-native projects that can render on web using react-native-web. Your project will run in headless (no UI) mode and the server will capture screenshots.
+Can be used in Expo or react-native projects that can render on web (possibly using react-native-web). Your project will run in headless (no UI) mode and the server will capture screenshots.
 
 Just wrap your UI component/widget inside `withScreenshotTest`. Then run the screenshot-test server. The tests will run and a report will be generated in `test.html` file.
 
@@ -40,7 +40,7 @@ Rebuild and relaunch your app after installation.
 "scripts": {
     ...
     ...
-    "ss-test": "cd ./node_modules/screenshot-test-server/dist && node server.js true", // add this for headless mode
+    "ss-test": "(npx expo start -c & sleep 2) && cd ./node_modules/screenshot-test-server/dist && node server.js true", // add this for headless mode
 
     // OR
     // to run the tests on simulator/device (in non-headless mode), add below line
@@ -93,10 +93,9 @@ const App = () => {
 3. In your projects root directory, run the below command(s)-
 
 ```js
-npx expo start -c // run this only in headless mode
 npm run ss-test
 ```
-This will start the test server. In headless mode, make sure to run `npx expo start -c` (for expo projects) or `npm start` (for rn projects runnable on web) before running `npm run ss-test`.
+This will start the test server.
 
 4. Render your test component in your simulator or device and press the <i>"Capture and Compare"</i> button. This step is needed only if you have NOT chosen the headless mode.
 
