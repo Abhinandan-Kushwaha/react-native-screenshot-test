@@ -137,3 +137,7 @@ interface Components {
 }
 ```
 <b>Note:</b> only the first 3 properties- `component`, `title` and `id` are required, rest are optional. 
+
+![react-native-screenshot-test architecture](./screenshot-test.svg)
+
+The test report is saved in `test.html` file inside a folder named `ss-test`
