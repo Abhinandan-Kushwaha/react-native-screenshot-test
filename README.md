@@ -143,3 +143,5 @@ interface Components {
 ![react-native-screenshot-test architecture](./screenshot-test.svg)
 
 The test report is saved in `test.html` file inside a folder named `ss-test`
+
+**Note:** <br/> The screenshot creation, updation and test report generation is handled using **[screenshot-test-server](https://github.com/Abhinandan-Kushwaha/screenshot-test-server)**
