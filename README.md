@@ -11,7 +11,7 @@ Just wrap your UI component/widget inside `withScreenshotTest`. Then run the scr
 ### Installation
 
 ```
-sudo npm i react-native-screenshot-test
+npm i react-native-screenshot-test
 ```
 
 ---
@@ -27,8 +27,10 @@ Hit the button and the tests will run and a report will be generated in `test.ht
 ### Installation
 
 ```
-npm i react-native-screenshot-test react-native-view-shot react-native-fs
+sudo npm i react-native-screenshot-test react-native-view-shot react-native-fs
 ```
+
+use `sudo` because internally we have a command to set up chrome puppeteer which might needs permissions.
 
 Rebuild and relaunch your app after installation.
 
