@@ -11,7 +11,7 @@ Just wrap your UI component/widget inside `withScreenshotTest`. Then run the scr
 ### Installation
 
 ```
-npm i react-native-screenshot-test
+sudo npm i react-native-screenshot-test
 ```
 
 ---
