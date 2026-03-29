@@ -71,13 +71,6 @@ Rebuild and relaunch your app after installation.
 }
 ```
 
-**Note** The node server accepts 3 args-
-```js
-1. isHeadLess // default true
-2. uiUrl // default http://localhost:8081
-3. serverPort // default 8080
-```
-
 2. Write your tests. Below is a sample test-
 
 ```js
