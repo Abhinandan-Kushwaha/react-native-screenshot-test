@@ -15,6 +15,8 @@ With screenshots, that temptation is reduced. You can’t skip images showing th
 
 <img src="./diff.png" alt="diff" />
 
+[Visit a sample test report](https://abhinandan-kushwaha.github.io/TestingCharts/ss-test/test.html) of `react-native-gifted-charts`
+
 ---
 
 ## 1. HeadLess mode
