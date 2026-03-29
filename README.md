@@ -13,7 +13,7 @@ With snapshots, let’s be honest… half the time you see a failure and go:
 You're tempted to just update the snapshots instead of actually investigating what changed. <br />
 With screenshots, that temptation is reduced. You can’t skip images showing the `diff` highlighted in  $${\color{red}brick-red}$$
 
-<img src="./diff.png" alt="diff" />
+<img src="./assets/diff.png" alt="diff" />
 
 [Visit a sample test report](https://abhinandan-kushwaha.github.io/TestingCharts/ss-test/test.html) of `react-native-gifted-charts`
 
@@ -157,6 +157,32 @@ interface Components {
 }
 ```
 <b>Note:</b> only the first 3 properties- `component`, `title` and `id` are required, rest are optional. 
+
+## Frequent Issues
+
+<img src="./assets/serverError.png" height=280 alt="server not running" />
+
+
+If you encounter the error saying- "Server NOT running!!" like above 👆 just follow the steps given along with the error message. <br />
+If you still get the same issue, the reason might be the `serverUrl`.<br />
+The default serverUrl is set to `http://127.0.0.1:8080`.<br />
+Just pass correct the `serverUrl` in the `screenshotConfig`. <br />
+You can get your network address (on Mac) using-
+```
+ipconfig getifaddr en0
+```
+It gives something like `192.168.0.5`. Use this address in the serverUrl, making something like- `http://192.168.0.5:8080`.
+**Example**
+```js
+const screenshotConfig = {
+    serverUrl: "http://192.168.0.5:8080",
+    ...
+}
+```
+
+---
+
+## Architecture
 
 ![react-native-screenshot-test architecture](./screenshot-test.svg)
 
