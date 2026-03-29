@@ -19,6 +19,8 @@ With screenshots, that temptation is reduced. You can’t skip images showing th
 
 ---
 
+**Note:** This package works on Node versions 22 and above.
+
 ## 1. HeadLess mode
 Can be used in Expo or react-native projects that can render on web (possibly using react-native-web). Your project will run in headless (no UI) mode and the server will capture screenshots.
 
