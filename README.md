@@ -54,7 +54,7 @@ Rebuild and relaunch your app after installation.
 
 ---
 
-### Usage
+## Usage
 
 1. In your project's `package.json`, under <i>scripts</i>, add-
 
