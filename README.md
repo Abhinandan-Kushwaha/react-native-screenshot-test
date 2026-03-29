@@ -1,7 +1,18 @@
+## react-native-screenshot-test
+
 **The most straightforward screenshot testing library for react-native.** <br/><br/>
 It lets you compare current UI elements with their previous state at the **pixel** level. With minimal setup and no extra effort for writing tests, it generates a test report showing the prior and current states and a diff image. It works with both Expo and bare React Native. <br/>
 The differences can be accepted in the report, updating the old screenshots.
 
+## Why screenshot-test
+
+Snapshot tests are cool… until they aren’t.<br />
+They compare code. Screenshot-test compares what actually matters - real screenshots from real devices. <br />
+With snapshots, let’s be honest… half the time you see a failure and go:
+> "eh, probably fine" → update snapshot
+
+You're tempted to just update the snapshots instead of actually investigating what changed. <br />
+With screenshots, that temptation is reduced. You can’t skip images showing the `diff` highlighted in  $${\color{red}brick-red}$$
 
 ## 1. HeadLess mode
 Can be used in Expo or react-native projects that can render on web (possibly using react-native-web). Your project will run in headless (no UI) mode and the server will capture screenshots.
