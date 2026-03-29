@@ -3,7 +3,7 @@
 **The most straightforward screenshot testing library for react-native.** <br/><br/>
 It lets you compare current UI elements with their previous state at the **pixel** level. With minimal setup and no extra effort for writing tests, it generates a test report showing the prior and current states and a diff image. It works with both Expo and bare React Native. <br/>
 
-## Why screenshot-test
+## Why screenshot-test?
 
 Snapshot tests are cool… until they aren’t.<br />
 They compare code. Screenshot-test compares what actually matters - real screenshots from real devices. <br />
