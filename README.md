@@ -156,7 +156,7 @@ interface Components {
 
 ## Frequent Issues
 
-<img src="./assets/serverError.png" height=280 alt="server not running" />
+<img src="./assets/serverError.png" height=240 alt="server not running" />
 
 
 If you encounter the error saying- "Server NOT running!!" like above 👆 just follow the steps given along with the error message. <br />
