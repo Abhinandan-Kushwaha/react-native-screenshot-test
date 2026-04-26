@@ -8,6 +8,7 @@ export const defaultConfig = {
   backgroundColor: 'transparent',
   showDiffInGrayScale: false,
   quality: 0.9,
+  autoCapture: false,
 };
 
 export interface ScreenshotConfig {
@@ -19,6 +20,7 @@ export interface ScreenshotConfig {
   backgroundColor?: string;
   showDiffInGrayScale?: boolean;
   quality?: number;
+  autoCapture?: boolean;
 }
 
 export interface Components {

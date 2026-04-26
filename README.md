@@ -149,6 +149,7 @@ interface Components {
   maxWidth?: number;
   backgroundColor?: string;
   quality?: number; // NOT used in headless mode
+  autoCapture?: boolean; // NOT used in headless mode
 }
 ```
 <b>Note:</b> only the first 3 properties- `component`, `title` and `id` are required, rest are optional. 

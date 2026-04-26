@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
   Text,
@@ -29,6 +29,7 @@ const withScreenShotTest = (
     backgroundColor = defaultConfig.backgroundColor,
     showDiffInGrayScale,
     quality = defaultConfig.quality,
+    autoCapture = defaultConfig.autoCapture,
   } = screenshotConfig ?? {};
 
   let path = screenshotConfig?.path ?? defaultConfig.path;
@@ -188,6 +189,14 @@ const withScreenShotTest = (
     }
   };
 
+  useEffect(() => {
+    if (autoCapture) {
+      setTimeout(() => {
+        captureView(viewShotRefs, componentsCurrentlyRendered);
+      }, 800);
+    }
+  }, []);
+
   return (
     <View style={{flex: 1, backgroundColor: '#aaa'}}>
       <View
@@ -215,22 +224,26 @@ const withScreenShotTest = (
           })}
         </ScrollView>
       </View>
-      <TouchableOpacity
-        onPress={() => captureView(viewShotRefs, componentsCurrentlyRendered)}
-        style={{
-          borderRadius: 4,
-          backgroundColor: '#111',
-          paddingHorizontal: 12,
-          paddingTop: 6,
-          paddingBottom: isAndroid ? 10 : 6,
-          marginTop: 4,
-          marginBottom: 12,
-          maxWidth: 220,
-          alignItems: 'center',
-          alignSelf: 'center',
-        }}>
-        <Text style={{color: 'white', fontSize: 16}}>Capture and Compare</Text>
-      </TouchableOpacity>
+      {!autoCapture ? (
+        <TouchableOpacity
+          onPress={() => captureView(viewShotRefs, componentsCurrentlyRendered)}
+          style={{
+            borderRadius: 4,
+            backgroundColor: '#111',
+            paddingHorizontal: 12,
+            paddingTop: 6,
+            paddingBottom: isAndroid ? 10 : 6,
+            marginTop: 4,
+            marginBottom: 12,
+            maxWidth: 220,
+            alignItems: 'center',
+            alignSelf: 'center',
+          }}>
+          <Text style={{color: 'white', fontSize: 16}}>
+            Capture and Compare
+          </Text>
+        </TouchableOpacity>
+      ) : null}
       {modalVisible ? (
         <TouchableOpacity
           activeOpacity={1}
