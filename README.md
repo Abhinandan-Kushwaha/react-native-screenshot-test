@@ -171,7 +171,7 @@ It gives something like `192.168.0.5`. Use this address in the serverUrl, making
 **Example**
 ```js
 const screenshotConfig = {
-    serverUrl: "http://192.168.0.5:8080",
+    serverUrl: "http://192.168.0.5:8080", // For android simulator, this is usually "http://10.0.2.2:8080"
     ...
 }
 ```
